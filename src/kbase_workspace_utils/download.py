@@ -19,7 +19,6 @@ def download_obj(*, ref):
     Download a json object from the workspace.
     """
     method = 'Workspace.get_objects2'
-    (ws_id, obj_id, obj_ver) = ref.split('/')
     params = [{'objects': [{'ref': ref}]}]
     data = {'method': method, 'params': params, 'version': 1.1}
     response = requests.post(
