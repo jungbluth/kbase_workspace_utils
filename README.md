@@ -18,7 +18,9 @@ In an app, it's recommended to lock the version of the package you install.
 
 ### Setup
 
-You need to set the environment variable `KBASE_WORKSPACE_URL` to a valid KBase workspace server (for example: `https://appdev.kbase.us/services/ws`).
+Two environment variables are requiredc to be set:
+* `KBASE_ENV`: one of "appdev", "ci", or "prod"
+* `KB_AUTH_TOKEN`: an authentication token
 
 ### Download any object
 
