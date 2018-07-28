@@ -22,63 +22,65 @@ You need to set the environment variable `KBASE_WORKSPACE_URL` to a valid KBase 
 
 ### Download any object
 
-To get any object, regardless of its type, use the `download` function
+To get any object, regardless of its type, use the `download_obj` function
 
 ```py
 from kbase_workspace_utils import download
 
-download(reference, path=file_path)
+obj = download_obj(ref=ws_reference)
 ```
 
-Note that there must not be an existing file at the path that you provide.
+The return value will be a dictionary of data representing the object.
 
-### Download a Reads type to a fastq file
+### Download a Reads to a fastq file
 
-To download a workspace reference of a KBase "Reads" object to a fastq file, set the `type` options
-to `"Reads"`:
+To download a workspace reference of a KBase "Reads" object to a fastq file, use the `download_reads` function.
 
 ```py
+from kbase_workspace_utils import download_reads
+
 # Pass in a file path where you want the fastq to be saved
-download(reference, path=fastq_file_path, type="Reads")
+download_reads(ref=ws_reference, path=fastq_file_path)
 ```
+
+This will return the full path of the downloaded file, with the original filename from the workspace.
 
 Note that the there must not be an existing file at the path that you provide.
 
-### Download an Assembly type to fasta
+### Download an Assembly to a fasta file
 
-To download an Assembly object to a fasta file, set the `type` option to `"Assembly"`
+To download an Assembly object to a fasta file, use `download_assembly` and pass in a parent directory:
 
 ```py
-download(reference, path=fasta_file_path, type="Assembly")
+from kbase_workspace_utils import download_assembly
+
+path = download_assembly(ref=ws_reference, file_dir=file_directory)
 ```
+
+This will return the full path of the downloaded file, with the original filename from the workspace.
 
 Note that there must not be an existing file at the path that you provide.
 
-### Download a Genome type as a GFF file
+### Download a Genome type as a GFF or Genbank file
 
-To download a Genome type to a GFF file, set `type` to `"Genome"` and `format` to `"gff"`:
+To download a Genome to a file, use the `download_genome` function.
 
-```py
-download(reference, path=gff_file_path, type="Genome", format="gff")
-```
-
-Note that there must not be an existing file at the path that you provide.
-
-### Download a Genome type as a Genbank file
-
-To download a Genome type to a Genbank formatted file, set `type` to `"Genome"` and `format` to `"genbank"`
+To specify the format -- GFF or Genbank -- set the `format` arg to "gff" or "Genbank. It defaults to "Genbank".
 
 ```py
 from kbase_workspace_utils import download_genome
 
-download_genome(reference, path=genbank_file_path, format="genbank", type="Genome")
+path = download_genome(ref=ws_reference, file_dir=directory, format="gff")
 ```
+
+Will return the full path of the downloaded file, with the original filename from the workspace.
 
 Note that there must not be an existing file at the path that you provide.
 
 ## Development
 
-You can use a `.env` file for env vars:
+You can use a `.env` file for env vars. Set `KB_AUTH_TOKEN` and `KBASE_ENV` to one of "ci", 
+"appdev", or "prod".
 
 ```sh
 $ cp .env.example .env
@@ -100,7 +102,9 @@ $ make test
 
 ### Build the package
 
+TODO -- setup.py, bdist_wheel, etc
+
 ### Project anatomy
 
-* The main package source code lives in `src/kbase_workspace_utils`
+* The main package source code lives in `src/kbase_workspace_utils`. See `src/kbase_workspace_utils/__init__.py` for a list of all exported functions.
 * Tests live in `src/kbase_workspace_utils/test`
