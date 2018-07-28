@@ -33,8 +33,6 @@ def download_obj(*, ref):
     ws_obj = resp_data['result'][0]
     # TODO deleted object error + test
     # TODO unauthorized access error + test
-    if ws_obj.get('error'):
-        raise ValueError(ws_obj['error']['message'])
     return ws_obj
 
 
