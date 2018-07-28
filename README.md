@@ -18,7 +18,7 @@ In an app, it's recommended to lock the version of the package you install.
 
 ### Setup
 
-Two environment variables are requiredc to be set:
+Two environment variables are required to be set:
 * `KBASE_ENV`: one of "appdev", "ci", or "prod"
 * `KB_AUTH_TOKEN`: an authentication token
 
@@ -27,7 +27,7 @@ Two environment variables are requiredc to be set:
 To get any object, regardless of its type, use the `download_obj` function
 
 ```py
-from kbase_workspace_utils import download
+from kbase_workspace_utils import download_obj
 
 obj = download_obj(ref=ws_reference)
 ```

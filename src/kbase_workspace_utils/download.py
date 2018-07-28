@@ -17,6 +17,8 @@ shock_url = "https://" + kbase_env + ".kbase.us/services/shock-api"
 def download_obj(*, ref):
     """
     Download a json object from the workspace.
+    Args:
+      ref is a workspace reference ID in the form 'workspace_id/object_id/version'
     """
     method = 'Workspace.get_objects2'
     params = [{'objects': [{'ref': ref}]}]
@@ -69,9 +71,11 @@ def download_shock_file(shock_id, file_path):
 
 def download_assembly(*, ref, save_dir):
     """
-    Download an Assembly object as fasta
+    Download an Assembly object as fasta.
+    Args:
+      ref is a workspace reference ID in the form 'workspace_id/object_id/version'
+      save_dir is the path of a directory in which to save the fasta file
     """
-    # config = _get_config()
     obj = download_obj(ref=ref)['data'][0]
     # ws_type = obj['info'][2]
     obj_name = obj['info'][1]
