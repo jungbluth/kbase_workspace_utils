@@ -1,5 +1,3 @@
-# import os
-# import shutil
 import unittest
 from src.kbase_workspace_utils import download_obj
 

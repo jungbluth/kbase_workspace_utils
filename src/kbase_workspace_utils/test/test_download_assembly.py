@@ -16,4 +16,6 @@ class TestDownloadAssembly(unittest.TestCase):
         self.assertEqual(filename, "MEGAHIT.contigs.fasta")
         shutil.rmtree(tmp_dir)
 
-    # Test all error cases
+    # TODO test contigset download
+
+    # TODO Test all error cases
