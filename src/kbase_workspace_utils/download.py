@@ -10,7 +10,7 @@ from .download_obj import download_obj
 config = load_config()
 
 
-def download_assembly(*, ref, save_dir):
+def download_assembly(ref, save_dir):
     """
     Download an Assembly object as fasta.
     Keyword arguments:
@@ -34,7 +34,7 @@ def download_assembly(*, ref, save_dir):
     return output_path
 
 
-def download_reads(*, ref, save_dir):
+def download_reads(ref, save_dir):
     """
     Download genome reads data as fastq.
     Keyword arguments:
@@ -104,7 +104,7 @@ def get_assembly_from_genome(ref):
     return ref_path
 
 
-def download_genome(*, ref, save_dir):
+def download_genome(ref, save_dir):
     raise NotImplementedError()
     # ws_obj = download_obj(ref=ref)['data'][0]
     # obj_name = ws_obj['info'][1]

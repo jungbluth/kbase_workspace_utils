@@ -24,7 +24,7 @@ Two environment variables are required to be set:
 
 ### Download any object
 
-To get any object, regardless of its type, use the `download_obj` function
+To get any workspace object, regardless of its type, use the `download_obj` function
 
 ```py
 from kbase_workspace_utils import download_obj
@@ -34,7 +34,7 @@ obj = download_obj(ref=ws_reference)
 
 The return value will be a dictionary of data representing the object.
 
-### Download a Reads to a fastq file
+### Download Reads to a fastq file
 
 To download a workspace reference of a KBase "Reads" object to a fastq file, use the `download_reads` function.
 
@@ -42,12 +42,14 @@ To download a workspace reference of a KBase "Reads" object to a fastq file, use
 from kbase_workspace_utils import download_reads
 
 # Pass in a file path where you want the fastq to be saved
-download_reads(ref=ws_reference, path=fastq_file_path)
+paths = download_reads(ref=ws_reference, save_dir=directory_to_save_file)
 ```
 
-This will return the full path of the downloaded file, with the original filename from the workspace.
+This will return an array of file paths according to the following rules:
 
-Note that the there must not be an existing file at the path that you provide.
+* If the reads are single ended, then you will get one filepath of `ws_obj_name.single.fastq`
+* If the reads are paired ends and interleaved, then you will get one filepath of `ws_obj_name.paired.interleaved.fastq`
+* If the reads are paired ends and not interleaved, then you will get two filepaths, one of `ws_obj_name.paired.fwd.fastq` for left reads and one of `ws_obj_name.paired.rev.fastq` for right reads.
 
 ### Download an Assembly to a fasta file
 
@@ -56,14 +58,28 @@ To download an Assembly object to a fasta file, use `download_assembly` and pass
 ```py
 from kbase_workspace_utils import download_assembly
 
-path = download_assembly(ref=ws_reference, file_dir=file_directory)
+path = download_assembly(ref=ws_reference, save_dir=directory_to_save_file)
 ```
 
-This will return the full path of the downloaded file, with the original filename from the workspace.
+This will return the full path of the downloaded file, with the original name of the object from the workspace and the `.fasta` extension.
 
-Note that there must not be an existing file at the path that you provide.
+This also works on legacy ContigSet types.
+
+### Get the Assembly reference from a Genome object
+
+Use the `get_assembly_from_genome` function to get the assembly (or ContigSet) reference from a Genome object:
+
+```py
+from kbase_workspace_utils import get_assembly_from_genome
+
+assembly_ref = get_assembly_from_genome(genome_ref)
+```
+
+The return value will be a reference path with the format `genome_ref;assembly_ref`. You can use `download_assembly(assembly_ref)` to get the fasta file.
 
 ### Download a Genome type as a GFF or Genbank file
+
+> This is not implemented yet
 
 To download a Genome to a file, use the `download_genome` function.
 
@@ -72,12 +88,10 @@ To specify the format -- GFF or Genbank -- set the `format` arg to "gff" or "Gen
 ```py
 from kbase_workspace_utils import download_genome
 
-path = download_genome(ref=ws_reference, file_dir=directory, format="gff")
+path = download_genome(ref=ws_reference, save_dir=directory, format="gff")
 ```
 
-Will return the full path of the downloaded file, with the original filename from the workspace.
-
-Note that there must not be an existing file at the path that you provide.
+Will return the full path of the downloaded file, with the original object name from the workspace.
 
 ## Development
 

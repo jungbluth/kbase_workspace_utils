@@ -16,7 +16,7 @@ def load_config():
     """
     auth_token = os.environ['KB_AUTH_TOKEN']
     kbase_env = os.environ.get('KBASE_ENV', 'appdev').lower()
-    if kbase_env == 'prod':
+    if kbase_env == 'prod' or kbase_env == 'production':
         kbase_env = 'narrative'
     return Config(
         auth_token=auth_token,
