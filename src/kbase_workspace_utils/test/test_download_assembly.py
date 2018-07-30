@@ -13,5 +13,7 @@ class TestDownloadAssembly(unittest.TestCase):
         pathname = download_assembly(ref=valid_ws_id, save_dir=tmp_dir)
         self.assertEqual(os.path.getsize(pathname), 3849120)
         filename = os.path.basename(pathname)
-        self.assertEqual(filename, "MEGAHIT.contigs.fa")
+        self.assertEqual(filename, "MEGAHIT.contigs.fasta")
         shutil.rmtree(tmp_dir)
+
+    # Test all error cases

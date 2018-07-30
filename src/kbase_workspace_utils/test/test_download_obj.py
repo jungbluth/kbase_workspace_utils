@@ -18,3 +18,5 @@ class TestDownloadObj(unittest.TestCase):
         with self.assertRaises(ValueError) as err:
             download_obj(ref=invalid_ws_id)
         self.assertTrue('cannot be accessed' in str(err.exception))
+
+    # TODO test all error cases
