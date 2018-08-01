@@ -21,3 +21,8 @@ class InvalidWSType(Exception):
 
     def __str__(self):
         return "Invalid workspace type: " + self.given + ". Valid types are: " + str(self.valid)
+
+
+class FileExists(Exception):
+    """A file already exists at a path where we want to download something."""
+    pass

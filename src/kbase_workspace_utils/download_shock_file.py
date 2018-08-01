@@ -2,6 +2,7 @@ import requests
 import os
 
 from .load_config import load_config
+from .exceptions import FileExists
 
 config = load_config()
 
@@ -15,7 +16,7 @@ def download_shock_file(shock_id, file_path):
     Returns nothing
     """
     if os.path.exists(file_path):
-        raise ValueError('File already exists at ' + file_path)
+        raise FileExists('File already exists at ' + file_path)
     headers = {'Authorization': 'OAuth ' + config.auth_token}
     # First we need to fetch some metadata about the file from shock
     node_url = config.shock_url + '/node/' + shock_id

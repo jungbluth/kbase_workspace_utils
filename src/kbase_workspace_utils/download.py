@@ -6,7 +6,7 @@ from .contigset_to_fasta import contigset_to_fasta
 from .download_shock_file import download_shock_file
 from .download_obj import download_obj
 from .validate_obj_type import validate_obj_type
-from .exceptions import InvalidWSType
+from .exceptions import InvalidWSType, FileExists
 
 config = load_config()
 
@@ -18,13 +18,13 @@ def download_assembly(ref, save_dir):
       ref is a workspace reference ID in the form 'workspace_id/object_id/version'
       save_dir is the path of a directory in which to save the fasta file
     """
-    # TODO more error handling and classes
     ws_obj = download_obj(ref=ref)['data'][0]
     validate_obj_type(ws_obj, types=['Assembly', 'ContigSet'])
     (obj_name, obj_type) = (ws_obj['info'][1], ws_obj['info'][2])
     output_path = os.path.join(save_dir, obj_name + '.fasta')
     if os.path.exists(output_path):
-        raise ValueError('File already exists at ' + output_path)
+        raise FileExists('File already exists at ' + output_path)
+    # TODO handle the full type name here
     if 'ContigSet' in obj_type:
         # Write out ContigSet data into a fasta file
         SeqIO.write(contigset_to_fasta(ws_obj), output_path, "fasta")
@@ -52,38 +52,37 @@ def download_reads(ref, save_dir):
         '.paired.rev.fastq'
     - Single ends get the file ending of '.single.fastq'
     """
-    # TODO more error handling and classes
     # Fetch the workspace object and check its type
     ws_obj = download_obj(ref=ref)['data'][0]
     (obj_name, obj_type) = (ws_obj['info'][1], ws_obj['info'][2])
     # TODO use the full type names
     if 'SingleEnd' in obj_type:
         # One file to download
-        shock_ids = [ws_obj['data']['lib']['file']['id']]
-        output_paths = [os.path.join(save_dir, obj_name + '.single.fastq')]
+        shock_id = ws_obj['data']['lib']['file']['id']
+        path = os.path.join(save_dir, obj_name + '.single.fastq')
+        to_download = [(shock_id, path)]
     elif 'PairedEnd' in obj_type:
         interleaved = ws_obj['data']['interleaved']
         if interleaved:
             # One file to download
-            shock_ids = [ws_obj['data']['lib1']['file']['id']]
-            output_paths = [os.path.join(save_dir, obj_name + '.paired.interleaved.fastq')]
+            shock_id = ws_obj['data']['lib1']['file']['id']
+            path = os.path.join(save_dir, obj_name + '.paired.interleaved.fastq')
+            to_download = [(shock_id, path)]
         else:
             # Two files to download (for left and right reads)
-            shock_ids = [
-                ws_obj['data']['lib1']['file']['id'],
-                ws_obj['data']['lib2']['file']['id']
-            ]
-            output_paths = [
-                os.path.join(save_dir, obj_name + '.paired.fwd.fastq'),
-                os.path.join(save_dir, obj_name + '.paired.rev.fastq')
-            ]
+            shock_id_fwd = ws_obj['data']['lib1']['file']['id']
+            shock_id_rev = ws_obj['data']['lib2']['file']['id']
+            path_fwd = os.path.join(save_dir, obj_name + '.paired.fwd.fastq')
+            path_rev = os.path.join(save_dir, obj_name + '.paired.rev.fastq')
+            to_download = [(shock_id_fwd, path_fwd), (shock_id_rev, path_rev)]
     else:
         # Unrecognized type
         raise InvalidWSType(given=obj_type, valid=['SingleEnd', 'PairedEnd'])
     # Download each shock id to each path
-    for (path, sid) in zip(output_paths, shock_ids):
-        download_shock_file(sid, path)
-    return output_paths
+    for (shock_id, path) in to_download:
+        download_shock_file(shock_id, path)
+    output_paths = map(lambda pair: pair[1], to_download)
+    return list(output_paths)
 
 
 def get_assembly_from_genome(ref):
