@@ -2,6 +2,7 @@ import os
 import shutil
 import tempfile
 import unittest
+from src.kbase_workspace_utils.exceptions import InvalidWSType
 from src.kbase_workspace_utils import download_assembly
 
 
@@ -16,6 +17,15 @@ class TestDownloadAssembly(unittest.TestCase):
         self.assertEqual(filename, "MEGAHIT.contigs.fasta")
         shutil.rmtree(tmp_dir)
 
+    # Error cases for invalid users and invalid ws references are covered in test_download_obj
+
+    def test_download_wrong_type(self):
+        reads_id = '15/45/1'
+        tmp_dir = tempfile.mkdtemp()
+        with self.assertRaises(InvalidWSType) as err:
+            download_assembly(ref=reads_id, save_dir=tmp_dir)
+        self.assertTrue('Invalid workspace type' in str(err.exception))
+
     # TODO test contigset download
 
-    # TODO Test all error cases
+    # TODO Test more error cases

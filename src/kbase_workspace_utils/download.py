@@ -19,12 +19,12 @@ def download_assembly(ref, save_dir):
       save_dir is the path of a directory in which to save the fasta file
     """
     ws_obj = download_obj(ref=ref)['data'][0]
-    validate_obj_type(ws_obj, types=['Assembly', 'ContigSet'])
+    valid_types = ['KBaseGenomeAnnotations.Assembly', 'ContigSet']
+    validate_obj_type(ws_obj=ws_obj, types=valid_types)
     (obj_name, obj_type) = (ws_obj['info'][1], ws_obj['info'][2])
     output_path = os.path.join(save_dir, obj_name + '.fasta')
     if os.path.exists(output_path):
         raise FileExists('File already exists at ' + output_path)
-    # TODO handle the full type name here
     if 'ContigSet' in obj_type:
         # Write out ContigSet data into a fasta file
         SeqIO.write(contigset_to_fasta(ws_obj), output_path, "fasta")
@@ -55,13 +55,16 @@ def download_reads(ref, save_dir):
     # Fetch the workspace object and check its type
     ws_obj = download_obj(ref=ref)['data'][0]
     (obj_name, obj_type) = (ws_obj['info'][1], ws_obj['info'][2])
-    # TODO use the full type names
-    if 'SingleEnd' in obj_type:
+    valid_types = {
+        'single': 'SingleEndLibrary-2.0',
+        'paired': 'PairedEndLibrary-2.0'
+    }
+    if valid_types['single'] in obj_type:
         # One file to download
         shock_id = ws_obj['data']['lib']['file']['id']
         path = os.path.join(save_dir, obj_name + '.single.fastq')
         to_download = [(shock_id, path)]
-    elif 'PairedEnd' in obj_type:
+    elif valid_types['paired'] in obj_type:
         interleaved = ws_obj['data']['interleaved']
         if interleaved:
             # One file to download
@@ -77,10 +80,11 @@ def download_reads(ref, save_dir):
             to_download = [(shock_id_fwd, path_fwd), (shock_id_rev, path_rev)]
     else:
         # Unrecognized type
-        raise InvalidWSType(given=obj_type, valid=['SingleEnd', 'PairedEnd'])
+        raise InvalidWSType(given=obj_type, valid_types=valid_types.values())
     # Download each shock id to each path
     for (shock_id, path) in to_download:
         download_shock_file(shock_id, path)
+    # Return a list of the output paths that we have downloaded
     output_paths = map(lambda pair: pair[1], to_download)
     return list(output_paths)
 

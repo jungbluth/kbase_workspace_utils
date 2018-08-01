@@ -14,4 +14,4 @@ def validate_obj_type(ws_obj, types):
     """
     ws_type = ws_obj['info'][2]
     if all(t not in ws_type for t in types):
-        raise InvalidWSType(given=ws_type, valid=types)
+        raise InvalidWSType(given=ws_type, valid_types=types)

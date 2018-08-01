@@ -15,12 +15,13 @@ class InaccessibleWSObject(Exception):
 
 class InvalidWSType(Exception):
 
-    def __init__(self, given, valid):
+    def __init__(self, given, valid_types):
         self.given = given
-        self.valid = valid
+        self.valid_types = valid_types
 
     def __str__(self):
-        return "Invalid workspace type: " + self.given + ". Valid types are: " + str(self.valid)
+        types = ", ".join(self.valid_types)
+        return "Invalid workspace type: " + self.given + ". Valid types are: " + types
 
 
 class FileExists(Exception):

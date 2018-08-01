@@ -14,25 +14,24 @@ class TestDownloadObj(unittest.TestCase):
 
     def test_nonexistent_ref(self):
         """Test a download where the ref is non-existent."""
-        invalid_ws_id = '6666666666/1/1'
+        invalid_ws_id = '66666666666666/1/1'
         with self.assertRaises(InaccessibleWSObject) as err:
             download_obj(ref=invalid_ws_id)
-        self.assertTrue('cannot be accessed' in str(err.exception))
+        self.assertTrue('No workspace with id' in str(err.exception))
 
     def test_unauthorized_ref(self):
         """Test a download where the ref is unauthorized."""
         invalid_ws_id = '1/1/1'
         with self.assertRaises(InaccessibleWSObject) as err:
             download_obj(ref=invalid_ws_id)
-            self.assertTrue('cannot be accessed' in str(err.exception))
+        self.assertTrue('cannot be accessed' in str(err.exception))
 
     def test_unauthorized_user(self):
-        invalid_ws_id = '1/1/1'
+        """Test an object download with an invalid user token."""
+        valid_ws_id = '15/38/4'
         prev_token = os.environ['KB_AUTH_TOKEN']
         os.environ['KB_AUTH_TOKEN'] = 'xxx'
         with self.assertRaises(InvalidUser) as err:
-            download_obj(ref=invalid_ws_id)
+            download_obj(ref=valid_ws_id)
         self.assertTrue('Login failed' in str(err.exception))
         os.environ['KB_AUTH_TOKEN'] = prev_token
-
-    # TODO test all error cases
