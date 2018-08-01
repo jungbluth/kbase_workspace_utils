@@ -56,6 +56,7 @@ def download_reads(ref, save_dir):
     # Fetch the workspace object and check its type
     ws_obj = download_obj(ref=ref)['data'][0]
     (obj_name, obj_type) = (ws_obj['info'][1], ws_obj['info'][2])
+    # TODO use the full type names
     if 'SingleEnd' in obj_type:
         # One file to download
         shock_ids = [ws_obj['data']['lib']['file']['id']]
