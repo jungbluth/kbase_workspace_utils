@@ -3,9 +3,10 @@ from Bio import SeqIO
 
 from .load_config import load_config
 from .contigset_to_fasta import contigset_to_fasta
-from .validate_obj_type import validate_obj_type, InvalidWSType
 from .download_shock_file import download_shock_file
 from .download_obj import download_obj
+from .validate_obj_type import validate_obj_type
+from .exceptions import InvalidWSType
 
 config = load_config()
 

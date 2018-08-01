@@ -4,6 +4,7 @@ import tempfile
 import unittest
 import pprint
 from src.kbase_workspace_utils import download_reads
+from src.kbase_workspace_utils.exceptions import InvalidWSType
 
 pp = pprint.PrettyPrinter(indent=2)
 
@@ -38,4 +39,12 @@ class TestDownloadReads(unittest.TestCase):
         self.assertEqual(os.path.getsize(paths[0]), 53949468)
         shutil.rmtree(tmp_dir)
 
-    # TODO test all error cases
+    # Error cases for invalid users and invalid ws references are covered in test_download_obj
+
+    def test_download_wrong_type(self):
+        assembly_id = '34819/10/1'
+        tmp_dir = tempfile.mkdtemp()
+        with self.assertRaises(InvalidWSType) as err:
+            download_reads(ref=assembly_id, save_dir=tmp_dir)
+        self.assertTrue('Invalid workspace type' in str(err.exception))
+        shutil.rmtree(tmp_dir)
