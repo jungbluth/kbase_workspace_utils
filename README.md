@@ -116,9 +116,13 @@ Then, run tests with:
 $ make test
 ```
 
-### Build the package
+### Build the conda package
 
-TODO -- setup.py, bdist_wheel, etc
+Install conda and conda-build, then run:
+
+```py
+conda build conda_recipe
+```
 
 ### Project anatomy
 
