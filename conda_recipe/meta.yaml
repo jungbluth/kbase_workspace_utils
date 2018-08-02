@@ -1,0 +1,19 @@
+package:
+  name: kbase_workspace_utils
+  version: 0.0.1
+
+source:
+  path: ../
+
+requirements:
+  host:
+    - python
+    - setuptools
+    - wheel
+  run:
+    - python
+
+about:
+  home:
+  license:
+  license_file:

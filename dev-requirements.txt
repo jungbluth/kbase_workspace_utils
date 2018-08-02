@@ -2,3 +2,7 @@ mypy==0.610
 bandit==1.4.0
 mccabe==0.6.1
 flake8==3.5.0
+
+# Build tools
+setuptools==40.0.0
+wheel==0.31.1
