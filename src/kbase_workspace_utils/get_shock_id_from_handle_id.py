@@ -12,10 +12,7 @@ def get_shock_id_from_handle_id(handle_id):
         'params': [[handle_id]],
         'id': str(uuid4())
     }
-    print(json.dumps(request_data))
-    print(config.handle_url)
     resp = requests.post(config.handle_url, data=json.dumps(request_data))
-    print('!' * 10, resp.text)
     resp_json = resp.json()
     result = resp_json['result'][0][0]
     return result['id']

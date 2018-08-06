@@ -2,11 +2,8 @@ import os
 import shutil
 import tempfile
 import unittest
-import pprint
 from src.kbase_workspace_utils import download_reads
 from src.kbase_workspace_utils.exceptions import InvalidWSType
-
-pp = pprint.PrettyPrinter(indent=2)
 
 
 class TestDownloadReads(unittest.TestCase):
