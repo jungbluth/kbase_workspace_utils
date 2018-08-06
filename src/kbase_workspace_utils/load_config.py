@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-Config = namedtuple('Config', ['auth_token', 'env', 'ws_url', 'shock_url'])
+Config = namedtuple('Config', ['auth_token', 'env', 'ws_url', 'shock_url', 'handle_url'])
 
 
 @functools.lru_cache()
@@ -22,5 +22,6 @@ def load_config():
         auth_token=auth_token,
         env=kbase_env,
         shock_url="https://" + kbase_env + ".kbase.us/services/shock-api",
-        ws_url="https://" + kbase_env + ".kbase.us/services/ws"
+        ws_url="https://" + kbase_env + ".kbase.us/services/ws",
+        handle_url="https://" + kbase_env + ".kbase.us/services/handle_service"
     )

@@ -25,6 +25,7 @@ class TestDownloadAssembly(unittest.TestCase):
         with self.assertRaises(InvalidWSType) as err:
             download_assembly(ref=reads_id, save_dir=tmp_dir)
         self.assertTrue('Invalid workspace type' in str(err.exception))
+        shutil.rmtree(tmp_dir)
 
     # TODO test contigset download
 
