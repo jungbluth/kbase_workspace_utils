@@ -11,6 +11,10 @@ from .exceptions import InvalidWSType, FileExists
 config = load_config()
 
 
+def autodownload():
+    pass
+
+
 def download_assembly(ref, save_dir):
     """
     Download an Assembly object as fasta.

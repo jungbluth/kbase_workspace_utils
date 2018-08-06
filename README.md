@@ -1,26 +1,18 @@
 # KBase Workspace Utils
 
-This is a standalone, installable Python package for downloading and uploading data using the KBase Workspace. You can get it with pip:
+This is a standalone, installable Python package for downloading and uploading data using the KBase Workspace. You can get it with pip using the Anaconda registry:
 
 ```py
-pip install kbase_workspace_utils
+pip install -i https://pypi.anaconda.org/kbase/simple kbase-workspace-utils==0.0.2
 ```
 
-In the Dockerfile of your KBase app or persistent ("dynamic") service, you can add a line like the following:
-
-```
-RUN pip install kbase_workspace_utils==0.0.1
-```
-
-In an app, it's recommended to lock the version of the package you install.
-
-## Usage
+## Usage and API
 
 ### Setup
 
 Two environment variables are required to be set:
 * `KBASE_ENV`: one of "appdev", "ci", or "prod"
-* `KB_AUTH_TOKEN`: an authentication token
+* `KB_AUTH_TOKEN`: a KBase authentication token
 
 ### Download any object
 
@@ -121,7 +113,8 @@ $ make test
 Install conda and conda-build, then run:
 
 ```py
-conda build conda_recipe
+$ python setup.py sdist
+$ anaconda upload -u kbase dist/*.tar.gz
 ```
 
 ### Project anatomy

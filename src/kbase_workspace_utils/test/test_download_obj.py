@@ -1,5 +1,6 @@
 import os
 import unittest
+from src.kbase_workspace_utils.load_config import load_config
 from src.kbase_workspace_utils import download_obj
 from src.kbase_workspace_utils.exceptions import InvalidUser, InaccessibleWSObject
 
@@ -29,9 +30,11 @@ class TestDownloadObj(unittest.TestCase):
     def test_unauthorized_user(self):
         """Test an object download with an invalid user token."""
         valid_ws_id = '15/38/4'
+        load_config.cache_clear()
         prev_token = os.environ['KB_AUTH_TOKEN']
         os.environ['KB_AUTH_TOKEN'] = 'xxx'
         with self.assertRaises(InvalidUser) as err:
             download_obj(ref=valid_ws_id)
         self.assertTrue('Login failed' in str(err.exception))
         os.environ['KB_AUTH_TOKEN'] = prev_token
+        load_config.cache_clear()
