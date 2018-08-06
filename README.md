@@ -3,7 +3,7 @@
 This is a standalone, installable Python package for downloading and uploading data using the KBase Workspace. You can get it with pip using the Anaconda registry:
 
 ```py
-pip install --extra-index-url https://pypi.anaconda.org/kbase/simple kbase-workspace-utils==0.0.4
+pip install --extra-index-url https://pypi.anaconda.org/kbase/simple kbase-workspace-utils==0.0.6
 ```
 
 ## Usage and API
