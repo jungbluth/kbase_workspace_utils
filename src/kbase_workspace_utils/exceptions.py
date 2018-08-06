@@ -27,3 +27,8 @@ class InvalidWSType(Exception):
 class FileExists(Exception):
     """A file already exists at a path where we want to download something."""
     pass
+
+
+class InvalidGenome(Exception):
+    """The genome object does not have the right data structure for download."""
+    pass

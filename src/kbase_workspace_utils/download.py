@@ -6,7 +6,7 @@ from .contigset_to_fasta import contigset_to_fasta
 from .download_shock_file import download_shock_file
 from .download_obj import download_obj
 from .validate_obj_type import validate_obj_type
-from .exceptions import InvalidWSType, FileExists
+from .exceptions import InvalidWSType, FileExists, InvalidGenome
 
 config = load_config()
 
@@ -107,7 +107,7 @@ def get_assembly_from_genome(ref):
     ws_data = ws_obj['data']
     assembly_ref = ws_data.get('contigset_ref') or ws_data.get('assembly_ref')
     if not assembly_ref:
-        raise ValueError('Genome ' + ref + ' has no assembly or contigset references')
+        raise InvalidGenome('Genome ' + ref + ' has no assembly or contigset references')
     # Return a reference path of `genome_ref;assembly_ref`
     ref_path = ref + ';' + assembly_ref
     return ref_path

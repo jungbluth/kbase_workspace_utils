@@ -1,5 +1,6 @@
 import unittest
 from src.kbase_workspace_utils import get_assembly_from_genome
+from src.kbase_workspace_utils.exceptions import InvalidGenome
 
 
 class TestGetAssemblyFromGenome(unittest.TestCase):
@@ -15,6 +16,6 @@ class TestGetAssemblyFromGenome(unittest.TestCase):
         Test the case where a Genome object does not have an assembly_ref
         """
         ref = '34819/5/9'
-        with self.assertRaises(ValueError) as err:
+        with self.assertRaises(InvalidGenome) as err:
             get_assembly_from_genome(ref)
         self.assertTrue('no assembly or contigset references' in str(err.exception))
