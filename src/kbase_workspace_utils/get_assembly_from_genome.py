@@ -4,7 +4,7 @@ from .validate_obj_type import validate_obj_type
 from .exceptions import InvalidGenome
 
 
-def get_assembly_from_genome(ref):
+def get_assembly_from_genome(ref, auth_token=None):
     """
     Given a Genome object, fetch the reference to its Assembly object on the workspace.
     Arguments:
@@ -12,7 +12,7 @@ def get_assembly_from_genome(ref):
     Returns a workspace reference to an assembly object
     """
     # Fetch the workspace object and check its type
-    ws_obj = download_obj(ref=ref)['data'][0]
+    ws_obj = download_obj(ref, auth_token=auth_token)['data'][0]
     validate_obj_type(ws_obj, ['Genome'])
     # Extract out the assembly reference from the workspace data
     ws_data = ws_obj['data']

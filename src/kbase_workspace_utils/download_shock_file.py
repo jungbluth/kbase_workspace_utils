@@ -4,10 +4,8 @@ import os
 from .load_config import load_config
 from .exceptions import FileExists
 
-config = load_config()
 
-
-def download_shock_file(shock_id, file_path):
+def download_shock_file(shock_id, file_path, auth_token=None):
     """
     Download a file from shock.
     Keyword arguments:
@@ -15,6 +13,8 @@ def download_shock_file(shock_id, file_path):
       file_path is a valid, non-existent path where the file will get downloaded
     Returns nothing
     """
+    config = load_config()
+    auth_token = auth_token or config.auth_token
     if os.path.exists(file_path):
         raise FileExists('File already exists at ' + file_path)
     headers = {'Authorization': 'OAuth ' + config.auth_token}

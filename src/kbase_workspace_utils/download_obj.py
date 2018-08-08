@@ -8,7 +8,7 @@ from .load_config import load_config
 from .exceptions import InvalidUser, InaccessibleWSObject
 
 
-def download_obj(*, ref):
+def download_obj(ref, auth_token=None):
     """
     Download any object from the workspace.
     Keyword arguments:
@@ -24,7 +24,7 @@ def download_obj(*, ref):
     response = requests.post(
         config.ws_url,
         data=json.dumps(data),
-        headers={'Authorization': config.auth_token},
+        headers={'Authorization': auth_token or config.auth_token},
         timeout=1800
     )
     resp_data = response.json()

@@ -1,5 +1,4 @@
 import os
-from Bio import SeqIO
 
 from .contigset_to_fasta import contigset_to_fasta
 from .download_obj import download_obj
@@ -9,7 +8,7 @@ from .validate_obj_type import validate_obj_type
 from .get_shock_id_from_handle_id import get_shock_id_from_handle_id
 
 
-def download_assembly(ref, save_dir):
+def download_assembly(ref, save_dir, auth_token=None):
     """
     Download an Assembly object as fasta.
     Keyword arguments:
@@ -17,7 +16,7 @@ def download_assembly(ref, save_dir):
       save_dir is the path of a directory in which to save the fasta file
     Returns an absolute path of the downloaded fasta file.
     """
-    ws_obj = download_obj(ref=ref)['data'][0]
+    ws_obj = download_obj(ref, auth_token=auth_token)['data'][0]
     valid_types = ['KBaseGenomeAnnotations.Assembly', 'ContigSet']
     validate_obj_type(ws_obj=ws_obj, types=valid_types)
     (obj_name, obj_type) = (ws_obj['info'][1], ws_obj['info'][2])
@@ -26,7 +25,7 @@ def download_assembly(ref, save_dir):
         raise FileExists('File already exists at ' + output_path)
     if 'ContigSet' in obj_type:
         # Write out ContigSet data into a fasta file
-        SeqIO.write(contigset_to_fasta(ws_obj), output_path, "fasta")
+        contigset_to_fasta(ws_obj, output_path)
     else:
         # Download a linked fasta file to the save directory
         data = ws_obj['data']

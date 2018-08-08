@@ -5,7 +5,7 @@ from .download_shock_file import download_shock_file
 from .exceptions import InvalidWSType
 
 
-def download_reads(ref, save_dir):
+def download_reads(ref, save_dir, auth_token=None):
     """
     Download genome reads data as fastq.
     Keyword arguments:
@@ -23,7 +23,7 @@ def download_reads(ref, save_dir):
     - Single ends get the file ending of '.single.fastq'
     """
     # Fetch the workspace object and check its type
-    ws_obj = download_obj(ref=ref)['data'][0]
+    ws_obj = download_obj(ref, auth_token=auth_token)['data'][0]
     (obj_name, obj_type) = (ws_obj['info'][1], ws_obj['info'][2])
     valid_types = {
         'single': 'SingleEndLibrary-2.0',

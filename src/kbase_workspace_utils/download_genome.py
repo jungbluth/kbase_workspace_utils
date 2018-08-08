@@ -1,6 +1,6 @@
 
 
-def download_genome(ref, save_dir):
+def download_genome(ref, save_dir, auth_token=None):
     raise NotImplementedError()
     # ws_obj = download_obj(ref=ref)['data'][0]
     # obj_name = ws_obj['info'][1]

@@ -11,7 +11,7 @@ class TestDownloadAssembly(unittest.TestCase):
     def test_basic_valid(self):
         tmp_dir = tempfile.mkdtemp()
         valid_ws_id = '34819/10/1'
-        pathname = download_assembly(ref=valid_ws_id, save_dir=tmp_dir)
+        pathname = download_assembly(valid_ws_id, tmp_dir, auth_token=os.environ['KB_AUTH_TOKEN'])
         self.assertEqual(os.path.getsize(pathname), 3849120)
         filename = os.path.basename(pathname)
         self.assertEqual(filename, "MEGAHIT.contigs.fasta")

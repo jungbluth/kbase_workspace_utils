@@ -14,7 +14,7 @@ def load_config():
     Initialize some configuration data.
     This is memoized using functools
     """
-    auth_token = os.environ['KB_AUTH_TOKEN']
+    auth_token = os.environ.get('KB_AUTH_TOKEN')
     kbase_env = os.environ.get('KBASE_ENV', 'appdev').lower()
     if kbase_env == 'prod' or kbase_env == 'production':
         kbase_env = 'narrative'

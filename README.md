@@ -6,13 +6,19 @@ This is a standalone, installable Python package for downloading and uploading d
 pip install --extra-index-url https://pypi.anaconda.org/kbase/simple kbase-workspace-utils==0.0.6
 ```
 
-## Usage and API
+## Setup
 
-### Setup
-
-Two environment variables are required to be set:
+Two environment variables can be set:
 * `KBASE_ENV`: one of "appdev", "ci", or "prod"
 * `KB_AUTH_TOKEN`: a KBase authentication token
+
+You can also pass in an authorization token to any of the functions below as an optional keyword argument called `auth_token`. For example: `download_reads(ref, save_dir, auth_token='xyz')`.
+
+`KBASE_ENV` defaults to `appdev` if it is not set.
+
+## Download functions
+
+This package comes with a variety of functions that you can use to download objects and files from the KBase workspace.
 
 ### Download any object
 
@@ -21,7 +27,7 @@ To get any workspace object, regardless of its type, use the `download_obj` func
 ```py
 from kbase_workspace_utils import download_obj
 
-obj = download_obj(ref=ws_reference)
+obj = download_obj(ws_reference, auth_token='xyz')
 ```
 
 The return value will be a dictionary of data representing the object.
