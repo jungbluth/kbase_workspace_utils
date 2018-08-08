@@ -34,5 +34,5 @@ def download_assembly(ref, save_dir, auth_token=None):
         else:
             handle_id = data['fasta_handle_ref']
             shock_id = get_shock_id_from_handle_id(handle_id)
-        download_shock_file(shock_id, output_path)
+        download_shock_file(shock_id, output_path, auth_token=auth_token)
     return output_path

@@ -53,7 +53,7 @@ def download_reads(ref, save_dir, auth_token=None):
         raise InvalidWSType(given=obj_type, valid_types=valid_types.values())
     # Download each shock id to each path
     for (shock_id, path) in to_download:
-        download_shock_file(shock_id, path)
+        download_shock_file(shock_id, path, auth_token=auth_token)
     # Return a list of the output paths that we have downloaded
     output_paths = map(lambda pair: pair[1], to_download)
     return list(output_paths)
