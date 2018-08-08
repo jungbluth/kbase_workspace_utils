@@ -31,7 +31,7 @@ def download_obj(ref, auth_token=None):
     if 'error' in resp_data:
         code = resp_data['error']['code']
         if code == -32400:
-            raise InvalidUser(resp_data['error']['message'] + '. Environment: ' + config.env)
+            raise InvalidUser(resp_data['error']['message'] + '. KBase endpoint is ' + config.endpoint)
         if code == -32500:
             raise InaccessibleWSObject(resp_data['error']['message'])
         else:

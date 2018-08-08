@@ -3,18 +3,18 @@
 This is a standalone, installable Python package for downloading and uploading data using the KBase Workspace. You can get it with pip using the Anaconda registry:
 
 ```sh
-pip install --extra-index-url https://pypi.anaconda.org/kbase/simple kbase-workspace-utils==0.0.7
+pip install --extra-index-url https://pypi.anaconda.org/kbase/simple kbase-workspace-utils==0.0.8
 ```
 
 ## Setup
 
 Two environment variables can be set:
-* `KBASE_ENV`: one of "appdev", "ci", or "prod"
+* `KBASE_ENDPOINT`: the KBASE services URL (eg. `https://ci.kbase.us/services/`)
 * `KB_AUTH_TOKEN`: a KBase authentication token
 
 You can also pass in an authorization token to any of the functions below as an optional keyword argument called `auth_token`. For example: `download_reads(ref, save_dir, auth_token='xyz')`.
 
-`KBASE_ENV` defaults to `appdev` if it is not set.
+`KBASE_ENDPOINT` defaults to `https://appdev.kbase.us/services/` if it is not set.
 
 ## Download functions
 
@@ -93,8 +93,7 @@ Will return the full path of the downloaded file, with the original object name 
 
 ## Development
 
-You can use a `.env` file for env vars. Set `KB_AUTH_TOKEN` and `KBASE_ENV` to one of "ci", 
-"appdev", or "prod".
+You can use a `.env` file for env vars. Make sure that both `KB_AUTH_TOKEN` and `KBASE_ENDPOINT` are set.
 
 ```sh
 $ cp .env.example .env
@@ -114,7 +113,7 @@ Then, run tests with:
 $ make test
 ```
 
-### Build the conda package
+### Build and publish the conda package
 
 Install conda and conda-build, then run:
 
