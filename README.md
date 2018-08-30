@@ -93,7 +93,7 @@ Will return the full path of the downloaded file, with the original object name 
 
 ## Development
 
-You can use a `.env` file for env vars. Make sure that both `KB_AUTH_TOKEN` and `KBASE_ENDPOINT` are set.
+You can use a `.env` file for env vars. Set `KB_AUTH_TOKEN` and `KBASE_ENDPOINT`.
 
 ```sh
 $ cp .env.example .env
