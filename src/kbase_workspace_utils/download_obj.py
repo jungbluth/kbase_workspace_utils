@@ -21,11 +21,14 @@ def download_obj(ref, auth_token=None):
     method = 'Workspace.get_objects2'
     params = [{'objects': [{'ref': ref}]}]
     data = {'method': method, 'params': params, 'version': 1.1}
+    auth_token = auth_token or config.auth_token
+    headers = {}
+    if auth_token:
+        headers['Authorization'] = auth_token
     response = requests.post(
         config.ws_url,
         data=json.dumps(data),
-        headers={'Authorization': auth_token or config.auth_token},
-        timeout=1800
+        headers=headers
     )
     resp_data = response.json()
     if 'error' in resp_data:

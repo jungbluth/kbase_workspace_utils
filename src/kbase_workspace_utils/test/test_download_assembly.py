@@ -4,6 +4,7 @@ import tempfile
 import unittest
 from src.kbase_workspace_utils.exceptions import InvalidWSType
 from src.kbase_workspace_utils import download_assembly
+from src.kbase_workspace_utils.load_config import load_config
 
 
 class TestDownloadAssembly(unittest.TestCase):
@@ -12,6 +13,22 @@ class TestDownloadAssembly(unittest.TestCase):
         tmp_dir = tempfile.mkdtemp()
         valid_ws_id = '34819/10/1'
         pathname = download_assembly(valid_ws_id, tmp_dir, auth_token=os.environ['KB_AUTH_TOKEN'])
+        self.assertEqual(os.path.getsize(pathname), 3849120)
+        filename = os.path.basename(pathname)
+        self.assertEqual(filename, "MEGAHIT.contigs.fasta")
+        shutil.rmtree(tmp_dir)
+
+    def test_without_auth(self):
+        tmp_dir = tempfile.mkdtemp()
+        valid_ws_id = '34819/10/1'
+        saved_token = os.environ['KB_AUTH_TOKEN']
+        del os.environ['KB_AUTH_TOKEN']
+        load_config.cache_clear()
+        try:
+            pathname = download_assembly(valid_ws_id, tmp_dir)
+        finally:
+            os.environ['KB_AUTH_TOKEN'] = saved_token
+            load_config.cache_clear()
         self.assertEqual(os.path.getsize(pathname), 3849120)
         filename = os.path.basename(pathname)
         self.assertEqual(filename, "MEGAHIT.contigs.fasta")

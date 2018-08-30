@@ -17,7 +17,7 @@ def download_shock_file(shock_id, file_path, auth_token=None):
     auth_token = auth_token or config.auth_token
     if os.path.exists(file_path):
         raise FileExists('File already exists at ' + file_path)
-    headers = {'Authorization': 'OAuth ' + auth_token}
+    headers = {'Authorization': 'OAuth ' + auth_token if auth_token else None}
     # First we need to fetch some metadata about the file from shock
     node_url = config.shock_url + '/node/' + shock_id
     response = requests.get(node_url, headers=headers, allow_redirects=True)

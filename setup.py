@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='kbase_workspace_utils',
-    version='0.0.10',
+    version='0.0.11',
     description='KBase Workspace object downloaders and uploaders',
     author='KBase Team',
     author_email='info@kbase.us',
