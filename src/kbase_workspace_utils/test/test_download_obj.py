@@ -2,7 +2,7 @@ import os
 import unittest
 from src.kbase_workspace_utils.load_config import load_config
 from src.kbase_workspace_utils import download_obj
-from src.kbase_workspace_utils.exceptions import InvalidUser, InaccessibleWSObject
+from src.kbase_workspace_utils.exceptions import InvalidUser, InaccessibleWSObject, InvalidWSResponse
 
 
 class TestDownloadObj(unittest.TestCase):
@@ -37,4 +37,17 @@ class TestDownloadObj(unittest.TestCase):
             download_obj(ref=valid_ws_id)
         self.assertTrue('Login failed' in str(err.exception))
         os.environ['KB_AUTH_TOKEN'] = prev_token
+        load_config.cache_clear()
+
+    def test_invalid_non_json_response(self):
+        """Test the case where the response is not valid JSON."""
+        prev_endpoint = os.environ['KBASE_ENDPOINT']
+        # Switch to a non-existent environment to generate a 404
+        os.environ['KBASE_ENDPOINT'] = "https://ci.kbase.us/servicezzz/"
+        load_config.cache_clear()
+        ws_id = '15/38/4'
+        with self.assertRaises(InvalidWSResponse) as err:
+            download_obj(ws_id)
+        self.assertTrue('Invalid' in str(err.exception))
+        os.environ['KBASE_ENDPOINT'] = prev_endpoint
         load_config.cache_clear()

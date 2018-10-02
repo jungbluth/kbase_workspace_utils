@@ -5,7 +5,7 @@ import json
 import requests
 
 from .load_config import load_config
-from .exceptions import InvalidUser, InaccessibleWSObject
+from .exceptions import InvalidUser, InaccessibleWSObject, InvalidWSResponse
 
 
 def download_obj(ref, auth_token=None):
@@ -30,7 +30,15 @@ def download_obj(ref, auth_token=None):
         data=json.dumps(data),
         headers=headers
     )
-    resp_data = response.json()
+    try:
+        json_data = response.json()
+    except json.decoder.JSONDecodeError as ex:
+        raise InvalidWSResponse(response.text)
+    return _handle_response(json_data, config)
+
+
+def _handle_response(resp_data, config):
+    """Handle the JSON object return by a workspace response when fetching an object."""
     if 'error' in resp_data:
         code = resp_data['error']['code']
         if code == -32400:

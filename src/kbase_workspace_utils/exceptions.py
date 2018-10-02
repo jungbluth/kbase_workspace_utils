@@ -32,3 +32,12 @@ class FileExists(Exception):
 class InvalidGenome(Exception):
     """The genome object does not have the right data structure for download."""
     pass
+
+
+class InvalidWSResponse(Exception):
+
+    def __init__(self, response_text):
+        self.resp = response_text
+
+    def __str__(self):
+        return "Invalid response from the workspace:\n%s" % self.resp
