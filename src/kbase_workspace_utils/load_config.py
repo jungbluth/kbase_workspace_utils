@@ -1,15 +1,10 @@
 import os
-import functools
 from collections import namedtuple
-from dotenv import load_dotenv
 from urllib.parse import urljoin
-
-load_dotenv()
 
 Config = namedtuple('Config', ['auth_token', 'endpoint', 'ws_url', 'shock_url', 'handle_url'])
 
 
-@functools.lru_cache()
 def load_config():
     """
     Initialize some configuration data.

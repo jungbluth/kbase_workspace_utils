@@ -1,4 +1,8 @@
 import unittest
+
+from dotenv import load_dotenv
+load_dotenv()  # noqa
+
 from src.kbase_workspace_utils import get_assembly_from_genome
 from src.kbase_workspace_utils.exceptions import InvalidGenome
 

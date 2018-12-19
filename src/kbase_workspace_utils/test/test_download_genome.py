@@ -1,6 +1,10 @@
 import shutil
 import tempfile
 import unittest
+
+from dotenv import load_dotenv
+load_dotenv()  # noqa
+
 from src.kbase_workspace_utils import download_genome
 
 
