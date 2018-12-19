@@ -32,8 +32,9 @@ def download_obj(ref, auth_token=None):
     )
     try:
         json_data = response.json()
-    except json.decoder.JSONDecodeError as ex:
-        raise InvalidWSResponse(response.text)
+    except ValueError as err:
+        print(err)
+        raise InvalidWSResponse("JSON parsing error: " + response.text)
     return _handle_response(json_data, config)
 
 

@@ -2,6 +2,7 @@ import os
 import functools
 from collections import namedtuple
 from dotenv import load_dotenv
+from urllib.parse import urljoin
 
 load_dotenv()
 
@@ -19,7 +20,7 @@ def load_config():
     return Config(
         auth_token=auth_token,
         endpoint=kbase_endpoint,
-        shock_url=kbase_endpoint + 'shock-api',
-        ws_url=kbase_endpoint + 'ws',
-        handle_url=kbase_endpoint + 'handle_service'
+        shock_url=urljoin(kbase_endpoint + '/', 'shock-api'),
+        ws_url=urljoin(kbase_endpoint + '/', 'ws'),
+        handle_url=urljoin(kbase_endpoint + '/', 'handle_service')
     )
