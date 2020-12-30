@@ -7,3 +7,4 @@ build
 dist
 log
 .mypy_cache
+.DS_Store
